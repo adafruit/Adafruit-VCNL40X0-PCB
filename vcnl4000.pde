@@ -93,7 +93,7 @@ void loop() {
    delay(100);
  }
 
-// Read 1 byte from the BMP085 at 'address'
+// Read 1 byte from the VCNL4000 at 'address'
 uint8_t read8(uint8_t address)
 {
   uint8_t data;
@@ -109,7 +109,7 @@ uint8_t read8(uint8_t address)
 }
 
 
-// Read 2 byte from the BMP085 at 'address'
+// Read 2 byte from the VCNL4000 at 'address'
 uint16_t read16(uint8_t address)
 {
   uint16_t data;
