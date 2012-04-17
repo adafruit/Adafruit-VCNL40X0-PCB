@@ -1,7 +1,21 @@
+// Example sketch for talking to the VCNL4000 i2c proximity/light sensor
+// Written by Adafruit! Public domain.
+// To use: Connect VCC to 3.3-5V (5V is best if it is available), GND to
+//         ground, SCL to i2c clock (on classic arduinos, Analog 5), SDA
+//         to i2c data (on classic arduinos Analog 4). The 3.3v pin is
+//         an ouptut if you need 3.3V
+// This sensor is 5V compliant so you can use it with 3.3 or 5V micros
+
+// You can pick one up at the Adafruit shop: www.adafruit.com/products/466
+
+
+
 #include <Wire.h>
 
+// the i2c address
 #define VCNL4000_ADDRESS 0x13
 
+// commands and constants
 #define VCNL4000_COMMAND 0x80
 #define VCNL4000_PRODUCTID 0x81
 #define VCNL4000_IRLED 0x83
@@ -101,6 +115,8 @@ uint8_t read8(uint8_t address)
   Wire.beginTransmission(VCNL4000_ADDRESS);
   Wire.send(address);
   Wire.endTransmission();
+
+  delayMicroseconds(170);  // delay required
 
   Wire.requestFrom(VCNL4000_ADDRESS, 1);
   while(!Wire.available());
