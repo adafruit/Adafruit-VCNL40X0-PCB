@@ -113,7 +113,11 @@ uint8_t read8(uint8_t address)
   uint8_t data;
 
   Wire.beginTransmission(VCNL4000_ADDRESS);
+#if ARDUINO >= 100
+  Wire.write(address);
+#else
   Wire.send(address);
+#endif
   Wire.endTransmission();
 
   delayMicroseconds(170);  // delay required
@@ -121,7 +125,11 @@ uint8_t read8(uint8_t address)
   Wire.requestFrom(VCNL4000_ADDRESS, 1);
   while(!Wire.available());
 
+#if ARDUINO >= 100
+  return Wire.read();
+#else
   return Wire.receive();
+#endif
 }
 
 
@@ -131,15 +139,26 @@ uint16_t read16(uint8_t address)
   uint16_t data;
 
   Wire.beginTransmission(VCNL4000_ADDRESS);
+#if ARDUINO >= 100
+  Wire.write(address);
+#else
   Wire.send(address);
+#endif
   Wire.endTransmission();
 
   Wire.requestFrom(VCNL4000_ADDRESS, 2);
   while(!Wire.available());
+#if ARDUINO >= 100
+  data = Wire.read();
+  data <<= 8;
+  while(!Wire.available());
+  data |= Wire.read();
+#else
   data = Wire.receive();
   data <<= 8;
   while(!Wire.available());
   data |= Wire.receive();
+#endif
   
   return data;
 }
@@ -148,7 +167,12 @@ uint16_t read16(uint8_t address)
 void write8(uint8_t address, uint8_t data)
 {
   Wire.beginTransmission(VCNL4000_ADDRESS);
+#if ARDUINO >= 100
+  Wire.write(address);
+  Wire.write(data);  
+#else
   Wire.send(address);
   Wire.send(data);  
+#endif
   Wire.endTransmission();
 }
